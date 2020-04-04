@@ -40,6 +40,22 @@ impl Universe {
         }
         count
     }
+
+    pub fn get_cells(&self) -> &FixedBitSet {
+        &self.cells
+    }
+
+    pub fn set_cells(&mut self, cells: &[(u32, u32)]) {
+        for (row, col) in cells.iter().cloned() {
+            let idx = self.get_index(row, col);
+            self.cells.set(idx, true);
+        }
+    }
+
+    fn reset(&mut self) {
+        let size = (self.width * self.height) as usize;
+        self.cells = FixedBitSet::with_capacity(size);
+    }
 }
 
 /// Public methods, exported to JavaScript.
@@ -106,6 +122,16 @@ impl Universe {
 
     pub fn height(&self) -> u32 {
         self.height
+    }
+
+    pub fn set_width(&mut self, width: u32) {
+        self.width = width;
+        self.reset();
+    }
+
+    pub fn set_height(&mut self, height: u32) {
+        self.height = height;
+        self.reset();
     }
 
     pub fn cells(&self) -> *const u32 {
