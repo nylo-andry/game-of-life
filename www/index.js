@@ -1,6 +1,8 @@
 import { Universe, Cell } from "game-of-life";
 import { memory } from "game-of-life/game_of_life_bg";
 
+import { fps } from "./profiling"
+
 const CELL_SIZE = 7; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
@@ -47,6 +49,7 @@ const isPaused = () => {
 };
 
 const renderLoop = () => {
+  fps.render();
   universe.tick();
 
   drawGrid();
